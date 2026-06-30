@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "vite --port 3000",
     "build": "tsc -b && vite build",
+    "build:gh-pages": "VITE_BASE_PATH=/publiccode-editor/ tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "predev": "npm run build:wasm",
@@ -21,6 +22,7 @@
     "format": "prettier --write 'src/**/*.{ts,tsx,scss,css,json}' ",
     "test": "jest --passWithNoTests",
     "deploy": "gh-pages -u 'Deploy Bot <no-reply@teamdigitale.governo.it>' -d dist",
+    "deploy:gh-pages": "npm run build:gh-pages && gh-pages -u 'Deploy Bot <no-reply@teamdigitale.governo.it>' -d dist",
     "release": "release-it",
     "_postinstall": "patch-package"
   },
