@@ -38,19 +38,20 @@ const YamlPreview = (): JSX.Element => {
   const { t } = useTranslation();
   const [showUploadPanel, setShowUploadPanel] = useState(false);
   const { yaml } = useYamlStore();
+  const hasYaml = typeof yaml === "string" && yaml.trim().length > 0;
 
   return (
     <div className="preview">
       <div className="preview__title">{"File YAML"}</div>
       <div className="preview__body">
-        {!yaml && (
+        {!hasYaml && (
           <div className="preview__info">{t("editor.nocodegenerated")}</div>
         )}
         <div className="preview__code">
           <pre>
             <code>
               {"\n"}
-              {typeof yaml === "string" && yaml}
+              {hasYaml ? yaml : ""}
             </code>
           </pre>
         </div>
@@ -61,30 +62,26 @@ const YamlPreview = (): JSX.Element => {
         )}
         <div>
           <Button
-            className={`${
-              !yaml ? "disabled" : "enabled"
-            } d-flex gap-1 justify-content-center align-items-center ${
+            type="button"
+            disabled={!hasYaml}
+            className={`d-flex gap-1 justify-content-center align-items-center ${
               showUploadPanel ? "d-none" : ""
             }`}
+            onClick={() => {
+              if (!hasYaml) {
+                return;
+              }
+              copy(yaml);
+              notify(t("editor.copytext"), { state: "info" });
+            }}
           >
             <Icon color="white" icon="it-copy" size="sm" />
-            <span
-              className="action"
-              onClick={
-                !yaml
-                  ? undefined
-                  : () => {
-                      copy(yaml);
-                      notify(t("editor.copytext"), { state: "info" });
-                    }
-              }
-            >
-              {t("editor.copy")}
-            </span>
+            <span className="action">{t("editor.copy")}</span>
           </Button>
         </div>
         <div>
           <Button
+            type="button"
             className="d-flex gap-1 justify-content-center align-items-center"
             onClick={(e) => {
               e.preventDefault();
@@ -97,19 +94,20 @@ const YamlPreview = (): JSX.Element => {
         </div>
         <div>
           <Button
-            className={`${
-              !yaml ? "disabled" : "enabled"
-            } d-flex gap-1 justify-content-center align-items-center ${
+            type="button"
+            disabled={!hasYaml}
+            className={`d-flex gap-1 justify-content-center align-items-center ${
               showUploadPanel ? "d-none" : ""
             }`}
+            onClick={() => {
+              if (!hasYaml) {
+                return;
+              }
+              download(yaml);
+            }}
           >
             <Icon color="white" icon="it-download" size="sm" />
-            <span
-              className="action"
-              onClick={!yaml ? undefined : () => download(yaml)}
-            >
-              {t("editor.download")}
-            </span>
+            <span className="action">{t("editor.download")}</span>
           </Button>
         </div>
       </div>

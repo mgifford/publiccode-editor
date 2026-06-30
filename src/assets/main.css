@@ -1053,6 +1053,18 @@ SETTINGS
   line-height: 24px;
   font-size: 16px;
   color: #fff;
+  opacity: 1;
+}
+
+.preview__footer .btn:disabled,
+.preview__footer .btn.disabled {
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+.preview__footer .btn:disabled .action,
+.preview__footer .btn.disabled .action {
+  color: #dbe9f8;
 }
 
 .preview__footer_item img {
